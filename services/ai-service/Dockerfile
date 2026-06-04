@@ -1,9 +1,13 @@
 FROM node:20-alpine
 WORKDIR /app
 
-COPY shared/ ./shared/
+# shared deps
+COPY shared/package*.json ./shared/
 RUN cd shared && npm install
 
+COPY shared/ ./shared/
+
+# ai-service deps
 COPY services/ai-service/package*.json ./services/ai-service/
 RUN cd services/ai-service && npm install
 
@@ -14,4 +18,5 @@ RUN cd services/ai-service && npm run build
 WORKDIR /app/services/ai-service
 ENV NODE_ENV=production
 EXPOSE 4002
-CMD ["node", "dist/src/index.js"]
+# rootDir=../../ means dist mirrors full path: dist/services/ai-service/src/index.js
+CMD ["node", "dist/services/ai-service/src/index.js"]

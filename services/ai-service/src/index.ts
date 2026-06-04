@@ -8,7 +8,7 @@ import helmet from 'helmet';
 import { startConsumer, publishEvent } from '../../../shared/kafka';
 import { KAFKA_TOPICS, KafkaMessage, SiteGenerationInput } from '../../../shared/types';
 import { generateSite } from '../generateSite';
-import { generateContent } from '../generateContent';
+import { generateContent, ContentType } from '../generateContent';
 import { scoreLeadWithAI } from '../scoreLead';
 import { generateMarketReport } from '../generateMarketReport';
 import { checkDbHealth } from '../../../shared/db';
@@ -109,7 +109,7 @@ async function startKafkaConsumer(): Promise<void> {
             requestId: string; siteId?: string; pageId?: string;
           };
           try {
-            const result = await generateContent({ contentType, prompt, siteId, pageId });
+            const result = await generateContent({ contentType: contentType as ContentType, prompt, siteId, pageId });
             await publishEvent(KAFKA_TOPICS.AI_CONTENT_COMPLETED, {
               requestId, userId, result, success: true,
             });

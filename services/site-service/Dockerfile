@@ -1,8 +1,10 @@
 FROM node:20-alpine
 WORKDIR /app
 
-COPY shared/ ./shared/
+COPY shared/package*.json ./shared/
 RUN cd shared && npm install
+
+COPY shared/ ./shared/
 
 COPY services/site-service/package*.json ./services/site-service/
 RUN cd services/site-service && npm install
@@ -14,4 +16,4 @@ RUN cd services/site-service && npm run build
 WORKDIR /app/services/site-service
 ENV NODE_ENV=production
 EXPOSE 4001
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/services/site-service/index.js"]

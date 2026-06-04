@@ -4,7 +4,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { query, queryOne } from '../../shared/db';
 import { publishEvent } from '../../shared/kafka';
-import { KAFKA_TOPICS } from '../../shared/types.ts';
+import { KAFKA_TOPICS } from '../../shared/types';
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
