@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { query, queryOne, queryMany } from '../../shared/db';
 
 const app = express();
-const PORT = process.env.USER_SERVICE_URL ?? 4003;
+const PORT = process.env.USER_SERVICE_PORT ?? 4003;
 const JWT_SECRET = process.env.JWT_SECRET ?? 'dev-secret-change-in-production';
 const JWT_EXPIRES = process.env.JWT_EXPIRES ?? '3d';
 const REFRESH_EXPIRES_DAYS = 30;

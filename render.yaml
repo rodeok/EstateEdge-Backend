@@ -1,0 +1,94 @@
+services:
+  - type: web
+    name: estateedge-gateway
+    runtime: docker
+    dockerfilePath: ./gateway/Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GATEWAY_PORT
+        value: 4000
+      - key: FRONTEND_URL
+        sync: false
+      - key: USER_SERVICE_URL
+        sync: false
+      - key: SITE_SERVICE_URL
+        sync: false
+      - key: AI_SERVICE_URL
+        sync: false
+      - key: ANALYTICS_SERVICE_URL
+        sync: false
+
+  - type: web
+    name: estateedge-user-service
+    runtime: docker
+    dockerfilePath: ./services/user-service/Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: USER_SERVICE_PORT
+        value: 4003
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES
+        value: 3d
+      - key: KAFKA_ENABLED
+        value: "false"
+
+  - type: web
+    name: estateedge-site-service
+    runtime: docker
+    dockerfilePath: ./services/site-service/Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SITE_SERVICE_PORT
+        value: 4001
+      - key: DATABASE_URL
+        sync: false
+      - key: AI_SERVICE_URL
+        sync: false
+      - key: KAFKA_ENABLED
+        value: "false"
+
+  - type: web
+    name: estateedge-ai-service
+    runtime: docker
+    dockerfilePath: ./services/ai-service/Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: AI_SERVICE_PORT
+        value: 4002
+      - key: DATABASE_URL
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: KAFKA_ENABLED
+        value: "false"
+
+  - type: web
+    name: estateedge-analytics-service
+    runtime: docker
+    dockerfilePath: ./services/analytics-service/Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ANALYTICS_SERVICE_PORT
+        value: 4004
+      - key: DATABASE_URL
+        sync: false
+      - key: KAFKA_ENABLED
+        value: "false"

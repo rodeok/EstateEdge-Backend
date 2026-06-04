@@ -9,7 +9,7 @@ import { publishEvent, startConsumer } from '../../shared/kafka';
 import { KAFKA_TOPICS, SiteGenerationInput } from '../../shared/types';
 
 const app = express();
-const PORT = process.env.SITE_SERVICE_URL ?? 4001;
+const PORT = process.env.SITE_SERVICE_PORT ?? 4001;
 const AI_SERVICE_URL = process.env.AI_SERVICE_URL ?? 'http://localhost:4002';
 // const KAFKA_ENABLED = process.env.KAFKA_ENABLED !== 'false';
 const KAFKA_ENABLED = process.env.KAFKA_ENABLED === 'true';

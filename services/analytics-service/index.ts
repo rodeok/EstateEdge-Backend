@@ -7,7 +7,7 @@ import { publishEvent, startConsumer } from '../../shared/kafka';
 import { KAFKA_TOPICS } from '../../shared/types';
 
 const app = express();
-const PORT = process.env.ANALYTICS_SERVICE_URL ?? 4004;
+const PORT = process.env.ANALYTICS_SERVICE_PORT ?? 4004;
 
 app.use(helmet());
 app.use(cors());
