@@ -13,10 +13,10 @@ const app = express();
 const PORT = process.env.GATEWAY_PORT ?? 4000;
 
 const SERVICE_URLS = {
-  user: process.env.USER_SERVICE_URL ?? 'http://localhost:4003',
-  site: process.env.SITE_SERVICE_URL ?? 'http://localhost:4001',
-  ai: process.env.AI_SERVICE_URL ?? 'http://localhost:4002',
-  analytics: process.env.ANALYTICS_SERVICE_URL ?? 'http://localhost:4004',
+  user: process.env.NODE_ENV === 'production' ? process.env.USER_SERVICE_URL : `http://localhost:${process.env.USER_SERVICE_PORT || 4003}`,
+  site: process.env.NODE_ENV === 'production' ? process.env.SITE_SERVICE_URL : `http://localhost:${process.env.SITE_SERVICE_PORT || 4001}`,
+  ai: process.env.NODE_ENV === 'production' ? process.env.AI_SERVICE_URL : `http://localhost:${process.env.AI_SERVICE_PORT || 4002}`,
+  analytics: process.env.NODE_ENV === 'production' ? process.env.ANALYTICS_SERVICE_URL : `http://localhost:${process.env.ANALYTICS_SERVICE_PORT || 4004}`,
 };
 
 // ─── GraphQL Schema ───────────────────────────────────────────────────────────
@@ -251,6 +251,7 @@ const resolvers = {
 
   Mutation: {
     register: async (_: unknown, { input }: { input: Record<string, unknown> }) => {
+      console.log('SERVICE_URLS.user:', SERVICE_URLS.user);
       const d = await svcPost(SERVICE_URLS.user, '/auth/register', input);
       return { user: camelize(d.user), accessToken: d.accessToken, refreshToken: d.refreshToken };
     },
