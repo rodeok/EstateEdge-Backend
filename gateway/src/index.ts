@@ -1,6 +1,7 @@
 // EstateEdge — GraphQL API Gateway
 // Apollo Server 4 — stitches all microservice schemas, handles auth middleware
 
+import 'dotenv/config';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import express, { Request } from 'express';
@@ -12,12 +13,18 @@ import axios, { AxiosError } from 'axios';
 const app = express();
 const PORT = process.env.GATEWAY_PORT ?? 4000;
 
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('USER_SERVICE_URL:', process.env.USER_SERVICE_URL);
+console.log('USER_SERVICE_PORT:', process.env.USER_SERVICE_PORT);
+
 const SERVICE_URLS = {
   user: process.env.NODE_ENV === 'production' ? process.env.USER_SERVICE_URL : `http://localhost:${process.env.USER_SERVICE_PORT || 4003}`,
   site: process.env.NODE_ENV === 'production' ? process.env.SITE_SERVICE_URL : `http://localhost:${process.env.SITE_SERVICE_PORT || 4001}`,
   ai: process.env.NODE_ENV === 'production' ? process.env.AI_SERVICE_URL : `http://localhost:${process.env.AI_SERVICE_PORT || 4002}`,
   analytics: process.env.NODE_ENV === 'production' ? process.env.ANALYTICS_SERVICE_URL : `http://localhost:${process.env.ANALYTICS_SERVICE_PORT || 4004}`,
 };
+
+console.log('SERVICE_URLS:', SERVICE_URLS);
 
 // ─── GraphQL Schema ───────────────────────────────────────────────────────────
 

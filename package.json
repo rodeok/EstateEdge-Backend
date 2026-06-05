@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only index.ts",
-    "dev:gateway":   "cd gateway && npm run dev",
-    "dev:user":      "cd services/user-service && npm run dev",
-    "dev:site":      "cd services/site-service && npm run dev",
-    "dev:ai":        "cd services/ai-service && npm run dev",
+    "dev:gateway": "cd gateway && npm run dev",
+    "dev:user": "cd services/user-service && npm run dev",
+    "dev:site": "cd services/site-service && npm run dev",
+    "dev:ai": "cd services/ai-service && npm run dev",
     "dev:analytics": "cd services/analytics-service && npm run dev",
     "install:all": "npm i && cd gateway && npm i && cd ../services/user-service && npm i && cd ../site-service && npm i && cd ../ai-service && npm i && cd ../analytics-service && npm i && cd ../../shared && npm i"
   },
   "dependencies": {
+    "dotenv": "^17.4.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.0"
   },
