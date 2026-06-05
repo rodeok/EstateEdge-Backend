@@ -3,7 +3,7 @@
 
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
-import express from 'express';
+import express, { Request } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { json } from 'body-parser';
@@ -369,8 +369,9 @@ function throwServiceError(err: unknown, context: string): never {
 
 // ─── Context (JWT Auth) ───────────────────────────────────────────────────────
 
-async function buildContext(req: express.Request): Promise<{ userId?: string; role?: string }> {
-  const auth = req.headers.authorization;
+async function buildContext(req: { headers?: Record<string, string | string[]> }): Promise<{ userId?: string; role?: string }> {
+  const rawAuth = req.headers?.authorization;
+  const auth = Array.isArray(rawAuth) ? rawAuth[0] : rawAuth;
   if (!auth?.startsWith('Bearer ')) {
     console.log("NO TOKEN");
     return {};
@@ -414,6 +415,8 @@ async function bootstrap() {
       origin: [
         'https://estateedge-frontend.vercel.app',
         'http://localhost:5173',
+        'http://localhost:3000',
+        'https://estateedge.vercel.app'
       ],
       credentials: true,
     })
